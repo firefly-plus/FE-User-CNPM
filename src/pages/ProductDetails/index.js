@@ -93,7 +93,7 @@ function ProductDetails() {
     <div className={cx("wrapper", "container")}>
       <section className={cx("section__detailvoucher")}>
         <div className="row">
-          <div className={cx("col-detail", "col-md-9")}>
+          <div className={cx("col-detail", "col-md-12")}>
             {loading ? (
               <p>Loading product details...</p>
             ) : error ? (
@@ -101,24 +101,6 @@ function ProductDetails() {
             ) : (
               <FormDetailProduct productDetails={productDetails} />
             )}
-          </div>
-
-          <div className={cx("col-voucher", "col-md-3")}>
-            <div className={cx("voucher-content")}>
-              {vouchers.map((voucher) => (
-                <CardVoucher
-                  key={voucher.id}
-                  id={voucher.id}
-                  voucherCode={voucher.voucherCode}
-                  description={voucher.description}
-                  maxUses={voucher.maxUses}
-                  usedCount={voucher.usedCount}
-                  endDate={voucher.endDate}
-                  StartDate={voucher.endDate}
-                  onVoucherAdded={handleVoucherAdded}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -145,22 +127,21 @@ function ProductDetails() {
             </div>
           </div>
 
-          <div className={cx("col-salehot", "col-md-3")}>
-            <div className={cx("des-salehot")}>
-              <div className={cx("salehot-header")}>
-                Sản phẩm đang giảm giá
-                <img src={icons.fire} alt="fire" />
-              </div>
-              <div className={cx("salehot-content")}>
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-                <CardProductSaleHorizontal />
-              </div>
+          <div className={cx("col-voucher", "col-md-3")}>
+            <div className={cx("voucher-content")}>
+              {vouchers.map((voucher) => (
+                <CardVoucher
+                  key={voucher.id}
+                  id={voucher.id}
+                  voucherCode={voucher.voucherCode}
+                  description={voucher.description}
+                  maxUses={voucher.maxUses}
+                  usedCount={voucher.usedCount}
+                  endDate={voucher.endDate}
+                  StartDate={voucher.endDate}
+                  onVoucherAdded={handleVoucherAdded}
+                />
+              ))}
             </div>
           </div>
         </div>

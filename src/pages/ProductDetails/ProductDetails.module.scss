@@ -1,4 +1,5 @@
 .wrapper {
+    padding-top: 100px;
     min-height: 100vh;
     margin-top: 80px;
 }
@@ -23,22 +24,7 @@
     }
 }
 
-.section__detailvoucher {
 
-    .col-voucher {
-        @extend .customer-scrollbar;
-        position: relative;
-        height: 430px;
-        overflow-y: auto;
-        box-shadow: rgba(158, 158, 158, 0.35) 0px -50px 36px -28px inset;
-
-        // .voucher-content {
-  //     position: relative;
-  //     height: 100%;
-  //     padding-bottom: 50px;
-  // }
-    }
-}
 
 .section__des {
     margin: 40px 0;
@@ -69,31 +55,17 @@
         }
     }
 
-    .des-salehot {
+    .col-voucher {
+        @extend .customer-scrollbar;
+        position: relative;
+        height: 430px;
+        overflow-y: auto;
 
-        .salehot-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #9e0682;
-            height: 60px;
-            border-top-right-radius: 20px;
-            border-top-left-radius: 20px;
-            color: #fff;
-            font-size: 1.8rem;
-            font-weight: bold;
-            img{
-                width: 25px;
-            }
-        }
-
-        .salehot-content {
-            @extend .customer-scrollbar;
-            height: 450px;
-            overflow-y: auto;
-            padding: 0 5px;
-            box-shadow: rgba(158, 158, 158, 0.35) 0px -50px 36px -28px inset;
-        }
+        // .voucher-content {
+        //     position: relative;
+        //     height: 100%;
+        //     padding-bottom: 50px;
+        // }
     }
 }
 
