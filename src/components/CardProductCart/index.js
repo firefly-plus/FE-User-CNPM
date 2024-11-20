@@ -126,6 +126,29 @@ function CardProductCart({
     return null;
   }
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+  
+    // Kiểm tra nếu giá trị là số hợp lệ hoặc rỗng
+    if (/^\d*$/.test(value)) {
+      setCurrentQuantity(value === "" ? "" : parseInt(value, 10));
+    }
+  };
+  
+  const handleInputBlur = () => {
+    if (currentQuantity === "" || currentQuantity < 1) {
+      // Nếu giá trị rỗng hoặc nhỏ hơn 1, đặt lại giá trị thành 1
+      setCurrentQuantity(1);
+    } else if (currentQuantity > stock) {
+      // Nếu vượt quá số lượng tồn, đặt giá trị thành số lượng tối đa
+      setCurrentQuantity(stock);
+      messageRef.current.showWarning("Số lượng vượt quá số lượng có sẵn");
+    } else {
+      // Nếu hợp lệ, gọi API cập nhật
+      handleQuantityChange(currentQuantity);
+    }
+  };
+
   return (
     <div className={cx("card-product")}>
       <div className={cx("checkbox")}>
@@ -154,20 +177,25 @@ function CardProductCart({
         </p>
       </div>
 
-      <div className="wrapper-control">
-        <div className={cx("quantity-control")}>
-          <button className={cx("decrease")} onClick={handleDecrease}>
-            -
-          </button>
-          <span className={cx("quantity")}>{currentQuantity}</span>
-          <button className={cx("increase")} onClick={handleIncrease}>
-            +
-          </button>
-        </div>
-        <div className={cx("total_Price")}>
+      <div className={cx("quantity-control")}>
+        <button className={cx("decrease")} onClick={handleDecrease}>
+          -
+        </button>
+          {/* <span className={cx("quantity")}>{currentQuantity}</span> */}
+          <input
+            className={cx("quantity")}
+            value={currentQuantity}
+            onChange={handleInputChange} // Gọi hàm xử lý thay đổi
+            onBlur={handleInputBlur}     // Gọi hàm xử lý khi mất focus
+          />
+        <button className={cx("increase")} onClick={handleIncrease}>
+          +
+        </button>
+      </div>
+
+      <div className={cx("total_Price")}>
           <p>Tổng: {formatCurrency(calculateTotalPrice())}</p>
         </div>
-      </div>
 
       <div
         className={cx("Trash-control")}

@@ -89,11 +89,35 @@ function SubHeader() {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("subHeader")}>
-        <div className={cx('btn-category')}>
-          <Dropdown menu={{ items }} placement="bottom">
-              <Button><FontAwesomeIcon icon={faBarsStaggered}/>Danh mục sản phẩm</Button>
-          </Dropdown>
-        </div>
+      <div className={cx('btn-category')}>
+        <Dropdown
+          overlay={
+            <Menu>
+              {categories.length > 0 ? (
+                categories.map((cat) => (
+                  <Menu.SubMenu
+                    key={cat.category_id}
+                    title={cat.category_name}
+                  >
+                    {cat.subcategories.map((subcat) => (
+                      <Menu.Item key={subcat.subcategory_id}>
+                        {subcat.SupCategoryName}
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
+                ))
+              ) : (
+                <Menu.Item key="no-category">Không có danh mục</Menu.Item>
+              )}
+            </Menu>
+          }
+          trigger={['click']}
+        >
+          <Button>
+            <FontAwesomeIcon icon={faBarsStaggered} /> Danh mục sản phẩm
+          </Button>
+        </Dropdown>
+      </div>
         {/* Product categories */}
         <div className={cx("productCatalog")}>
             <ul className={cx("categoryList")}>
