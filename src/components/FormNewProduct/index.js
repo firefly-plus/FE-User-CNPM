@@ -73,41 +73,44 @@ function FormNewProduct() {
   };
 
   return (
-    <div className={cx("wrapper")}>
+    <>
       <div className={cx("header")}>
         <div className={cx("title")}>
           <p>Sản phẩm mới</p>
         </div>
       </div>
-
-      <div className={cx("product-list")}>
-        {loading ? (
-          <p>Loading...</p>
-        ) : products.length > 0 ? (
-          <Slider {...sliderSettings}>
-            {products.map((product) => (
-              <div className={cx("product-item")}>
-                <CardProduct
-                  key={product.product_id}
-                  id={product.product_id}
-                  FirstImage={
-                    product.FirstImage ? product.FirstImage : "placeholder.jpg"
-                  }
-                  SupCategoryName={product.SupCategoryName}
-                  productName={product.productName}
-                  originalPrice={product.originalPrice}
-                  reducedPrice={product.ReducedPrice}
-                  discount={product.discount}
-                  isNew={product.isNew}
-                />
-              </div>
-            ))}
-          </Slider>
-        ) : (
-          <p>No products available.</p>
-        )}
+      <div className={cx("wrapper")}>
+        <div className={cx("product-list")}>
+          {loading ? (
+            <p>Loading...</p>
+          ) : products.length > 0 ? (
+            <Slider {...sliderSettings}>
+              {products.map((product) => (
+                <div className={cx("product-item")}>
+                  <CardProduct
+                    key={product.product_id}
+                    id={product.product_id}
+                    FirstImage={
+                      product.FirstImage
+                        ? product.FirstImage
+                        : "placeholder.jpg"
+                    }
+                    SupCategoryName={product.SupCategoryName}
+                    productName={product.productName}
+                    originalPrice={product.originalPrice}
+                    reducedPrice={product.ReducedPrice}
+                    discount={product.discount}
+                    isNew={product.isNew}
+                  />
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <p>No products available.</p>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

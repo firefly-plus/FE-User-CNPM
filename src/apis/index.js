@@ -166,3 +166,9 @@ export const fetchFeedbackByProductIdAPI = async (id) => {
   );
   return response.data;
 };
+export const fetchGetProductBySupCategoryAPI = async (id) => {
+  const response = await axios.get(
+    `${API_ROOT}/v1/product/getProductBySup/${id}`
+  );
+  return response.data;
+};
