@@ -1,5 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./Footer.module.scss";
+import { Link } from "react-router-dom";
+import images from "~/assets/images";
 // import Map from '~/components/Map';
 
 const cx = classNames.bind(styles);
@@ -9,7 +11,9 @@ function Footer() {
     <div className={cx("footer-wrapper", "container-fill")}>
       <footer className={cx("footer", "row")}>
         <div className={cx("footer-column", "col-md-3")}>
-          <h3>PANDORA</h3>
+            <Link Link to="/"  className={cx('logo')}>
+              <img src={images.logo} alt="logo" />
+            </Link>
           <p>
             Địa chỉ: Số 2 ngách 43/59 phố Chùa Bộc, Phường Khương Thượng, Quận
             Đống đa, Thành phố Hà Nội, Việt Nam

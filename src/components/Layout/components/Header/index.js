@@ -77,7 +77,7 @@ function Header() {
   const handleMenuClick = (e) => {
     switch (e.key) {
       case "account":
-        navigate("/account"); 
+        navigate("/profile"); 
         break;
       case "settings":
         navigate("/settings");
@@ -175,7 +175,6 @@ function Header() {
           <div className={cx('header__bottom')}>
             <Link to="/"  className={cx('logo')}>
               <img src={images.logo} alt="logo" />
-              <h1>Pandora</h1>
             </Link>
 
               <form className={cx('form-search')}>
