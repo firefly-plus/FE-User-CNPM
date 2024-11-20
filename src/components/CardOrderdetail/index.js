@@ -7,10 +7,11 @@ import ModalFeedback from "../ModalFeedback";
 
 const cx = classNames.bind(styles);
 
-function CardOrderDetail({ product }) {
+function CardOrderDetail({ product, isFeedBack }) {
   const [modalFeedback, setModalFeedback] = useState(false);
 
   const {
+    id,
     productName,
     productImage,
     Quantity,
@@ -47,12 +48,16 @@ function CardOrderDetail({ product }) {
         <span>{Amount} vnđ</span>
       </div>
       <div className={cx("order-feedback")}>
-        <Button
-          className={cx("btn-feedback")}
-          onClick={() => setModalFeedback(true)}
-        >
-          Đánh giá
-        </Button>
+        {isFeedBack ? (
+          <Button
+            className={cx("btn-feedback")}
+            onClick={() => setModalFeedback(true)}
+          >
+            Đánh giá
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
 
       <Modal
@@ -62,7 +67,10 @@ function CardOrderDetail({ product }) {
         onCancel={() => setModalFeedback(false)}
         footer={null}
       >
-        <ModalFeedback />
+        <ModalFeedback
+          id_invoiceDetail={id}
+          onClose={() => setModalFeedback(false)}
+        />
       </Modal>
     </div>
   );

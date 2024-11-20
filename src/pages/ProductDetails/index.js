@@ -7,7 +7,11 @@ import { faAnglesDown, faAnglesUp } from "@fortawesome/free-solid-svg-icons";
 import CardVoucher from "~/components/CardVoucher";
 import FormDetailProduct from "~/components/FormDetailProduct";
 import styles from "./ProductDetails.module.scss";
-import { fetchProductByIdAPI, fetchGetVoucherAPI } from "~/apis";
+import {
+  fetchProductByIdAPI,
+  fetchGetVoucherAPI,
+  fetchFeedbackByProductIdAPI,
+} from "~/apis";
 import CardProductSaleHorizontal from "~/components/CardProductSaleHorizontal";
 import { icon } from "@fortawesome/fontawesome-svg-core";
 import icons from "~/assets/icons";
@@ -23,7 +27,12 @@ function ProductDetails() {
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [vouchers, setVouchers] = useState([]);
-
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [statistics, setStatistics] = useState({
+    totalRatings: 0,
+    averageRating: 0,
+    ratingCounts: [0, 0, 0, 0, 0],
+  });
   const storedUser = Cookies.get("user")
     ? JSON.parse(Cookies.get("user"))
     : null;
@@ -77,6 +86,37 @@ function ProductDetails() {
       }
     };
     fetchData();
+  }, [productId]);
+
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const data = await fetchFeedbackByProductIdAPI(productId);
+        console.log("Dữ liệu feedback:", data);
+
+        const totalRatings = data.length;
+        const ratingCounts = [0, 0, 0, 0, 0];
+        let totalScore = 0;
+
+        data.forEach((feedback) => {
+          ratingCounts[feedback.feedback_rating - 1]++;
+          totalScore += feedback.feedback_rating;
+        });
+
+        const averageRating =
+          totalRatings > 0 ? (totalScore / totalRatings).toFixed(1) : 0;
+
+        setFeedbacks(data);
+        setStatistics({
+          totalRatings,
+          averageRating,
+          ratingCounts,
+        });
+      } catch (error) {
+        console.log("Error fetching feedbacks:", error);
+      }
+    };
+    fetchFeedbacks();
   }, [productId]);
 
   const handleVoucherAdded = async () => {
@@ -149,66 +189,63 @@ function ProductDetails() {
 
       <section className={cx("section__feedback")}>
         <div className={cx("row")}>
-          <h3>Đánh giá sản phẩm</h3>
-          <div className={cx("col-feedback", "col-md-6")}>
-            <CardFeedback />
-            <CardFeedback />
-            <CardFeedback />
-            <CardFeedback />
-          </div>
-
-          <div className={cx("col-star", "col-md-6")}>
-            <div className={cx("star-rating")}>
-              <div className={cx("star-rating-header")}>
-                <span className={cx("average-rating")}>4.8</span>
-                <div className={cx("stars")}>
-                  <span className={cx("star")}>★</span>
-                  <span className={cx("star")}>★</span>
-                  <span className={cx("star")}>★</span>
-                  <span className={cx("star")}>★</span>
-                  <span className={cx("half-star")}>★</span>
-                </div>
-                <span className={cx("total-reviews")}>4 đánh giá</span>
+          <section className={cx("section__feedback")}>
+            <div className={cx("row")}>
+              <h3>Đánh giá sản phẩm</h3>
+              <div className={cx("col-feedback", "col-md-6")}>
+                {feedbacks.map((feedback) => (
+                  <CardFeedback key={feedback.feedback_id} data={feedback} />
+                ))}
               </div>
-              <div className={cx("star-breakdown")}>
-                <div className={cx("star-row")}>
-                  <span>5 ★</span>
-                  <div className={cx("bar")}>
-                    <div
-                      className={cx("filled-bar")}
-                      style={{ width: "75%" }}
-                    ></div>
+              <div className={cx("col-star", "col-md-6")}>
+                <div className={cx("star-rating")}>
+                  <div className={cx("star-rating-header")}>
+                    <span className={cx("average-rating")}>
+                      {statistics.averageRating}
+                    </span>
+                    <div className={cx("stars")}>
+                      {Array(5)
+                        .fill(0)
+                        .map((_, index) => (
+                          <span
+                            key={index}
+                            className={cx("star", {
+                              "half-star":
+                                index + 0.5 < statistics.averageRating,
+                            })}
+                          >
+                            ★
+                          </span>
+                        ))}
+                    </div>
+                    <span className={cx("total-reviews")}>
+                      {statistics.totalRatings} đánh giá
+                    </span>
                   </div>
-                  <span>75%</span>
-                </div>
-                <div className={cx("star-row")}>
-                  <span>4 ★</span>
-                  <div className={cx("bar")}>
-                    <div
-                      className={cx("filled-bar")}
-                      style={{ width: "25%" }}
-                    ></div>
+                  <div className={cx("star-breakdown")}>
+                    {statistics.ratingCounts.map((count, index) => {
+                      const percentage =
+                        statistics.totalRatings > 0
+                          ? (count / statistics.totalRatings) * 100
+                          : 0;
+                      return (
+                        <div key={index} className={cx("star-row")}>
+                          <span>{index + 1} ★</span>
+                          <div className={cx("bar")}>
+                            <div
+                              className={cx("filled-bar")}
+                              style={{ width: `${percentage}%` }}
+                            ></div>
+                          </div>
+                          <span>{Math.round(percentage)}%</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <span>25%</span>
-                </div>
-                <div className={cx("star-row")}>
-                  <span>3 ★</span>
-                  <div className={cx("bar")}></div>
-                  <span>0%</span>
-                </div>
-                <div className={cx("star-row")}>
-                  <span>2 ★</span>
-                  <div className={cx("bar")}></div>
-                  <span>0%</span>
-                </div>
-                <div className={cx("star-row")}>
-                  <span>1 ★</span>
-                  <div className={cx("bar")}></div>
-                  <span>0%</span>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </section>
     </div>
