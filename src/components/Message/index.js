@@ -2,7 +2,9 @@ import React, { forwardRef, useImperativeHandle } from "react";
 import { message } from "antd";
 
 const MessageNotification = (props, ref) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage({
+    maxCount: 2,
+  });
 
   useImperativeHandle(ref, () => ({
     showSuccess: (content) => {
