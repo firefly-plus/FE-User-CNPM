@@ -63,6 +63,7 @@ function FormProductSale() {
               originalPrice={product.originalPrice}
               reducedPrice={product.ReducedPrice}
               discount={product.discount}
+              isNew={product.isNew}
             />
           ))
         ) : (

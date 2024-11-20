@@ -88,8 +88,8 @@ function FormNewProduct() {
             {products.map((product) => (
               <div className={cx("product-item")}>
                 <CardProduct
-                  key={product.ProductID}
-                  id={product.ProductID}
+                  key={product.product_id}
+                  id={product.product_id}
                   FirstImage={
                     product.FirstImage ? product.FirstImage : "placeholder.jpg"
                   }
@@ -98,7 +98,7 @@ function FormNewProduct() {
                   originalPrice={product.originalPrice}
                   reducedPrice={product.ReducedPrice}
                   discount={product.discount}
-                  new={product.new}
+                  isNew={product.isNew}
                 />
               </div>
             ))}

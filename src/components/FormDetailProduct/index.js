@@ -161,20 +161,56 @@ function FormDetailProduct({ productDetails }) {
         </p>
 
         {/* Hiển thị giá từ khi chưa chọn size */}
-        {!selectedSize ? (
+        {selectedVariant ? (
+          <div>
+            <p className={cx("Price-MinMax")}>
+              {selectedVariant.discount_percentage > 0 ? (
+                <>
+                  Khuyến mãi:{" "}
+                  <span className={cx("discount-text")}>
+                    {selectedVariant.discount_percentage}% Giảm giá
+                  </span>
+                </>
+              ) : (
+                <></>
+              )}
+            </p>
+            <p className={cx("Price-MinMax")}>
+              Giá:{" "}
+              {selectedVariant.discount_percentage > 0 ? (
+                <>
+                  <span className={cx("discount-price")}>
+                    {(
+                      selectedVariant.price *
+                      (1 - selectedVariant.discount_percentage / 100)
+                    ).toLocaleString("vi-VN")}{" "}
+                    VND
+                  </span>
+                  <span className={cx("original-price_discount")}>
+                    {selectedVariant.price.toLocaleString("vi-VN")} VND
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span className={cx("discount-price")}>
+                    {selectedVariant.price.toLocaleString("vi-VN")} VND
+                  </span>
+                </>
+              )}{" "}
+            </p>
+          </div>
+        ) : (
           <p className={cx("Price-MinMax")}>
             Giá từ:{" "}
             <span>
-              {Number(parseFloat(productDetails.min_price)).toLocaleString("vi-VN")}{" "}
-              - {Number(parseFloat(productDetails.max_price)).toLocaleString("vi-VN")}
-            </span>
-          </p>
-        ) : (
-          // Sau khi chọn size, hiển thị giá của size đã chọn
-          <p className={cx("Price-MinMax")}>
-            Giá:{" "}
-            <span>
-              {(priceAfterDiscount || selectedVariant.price).toLocaleString("vi-VN")} VND
+              {Number(parseFloat(productDetails.min_price)).toLocaleString(
+                "vi-VN"
+              )}{" "}
+              -{" "}
+              {Number(parseFloat(productDetails.max_price)).toLocaleString(
+                "vi-VN"
+              )}
             </span>
           </p>
         )}

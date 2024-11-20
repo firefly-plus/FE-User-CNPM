@@ -302,23 +302,23 @@ function ModalPayment({
           </div>
           <div className={cx("form-input")}>
             <label>Địa chỉ đầy đủ</label>
-            <TextArea
+            <Input
               placeholder="maxLength is 6"
               value={fullAddress}
               readOnly
               className={cx("full-address")}
             />
           </div>
-          <div className={cx("form-input")}>
-            <label>Tên đường</label>
-            <input
-              type="text"
-              placeholder="Địa chỉ"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
+
           <div className={cx("City")}>
+            <div className={cx("streetName")}>
+              <Input
+                type="text"
+                placeholder="Địa chỉ"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
             <select
               className={cx("Input-City")}
               value={selectedProvince}
@@ -361,7 +361,6 @@ function ModalPayment({
             </select>
           </div>
           <div className={cx("Payment")}>
-            <label>Chọn phương thức thanh toán</label>
             <div className={cx("Option-Payment")}>
               <button
                 type="button"

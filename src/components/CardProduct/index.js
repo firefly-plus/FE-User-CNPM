@@ -17,7 +17,7 @@ function CardProduct({
   originalPrice,
   reducedPrice,
   discount,
-  new: isNew,
+  isNew,
 }) {
   const navigate = useNavigate();
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -38,7 +38,7 @@ function CardProduct({
         <></>
       )}
 
-      {isNew && <div className={cx("tag-new")}>new</div>}
+      {isNew ? <div className={cx("tag-new")}>new</div> : <></>}
       <div className={cx("box-img")}>
         <img
           className={cx("image")}

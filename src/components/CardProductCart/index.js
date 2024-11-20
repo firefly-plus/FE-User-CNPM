@@ -128,23 +128,19 @@ function CardProductCart({
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-  
-    // Kiểm tra nếu giá trị là số hợp lệ hoặc rỗng
+
     if (/^\d*$/.test(value)) {
       setCurrentQuantity(value === "" ? "" : parseInt(value, 10));
     }
   };
-  
+
   const handleInputBlur = () => {
     if (currentQuantity === "" || currentQuantity < 1) {
-      // Nếu giá trị rỗng hoặc nhỏ hơn 1, đặt lại giá trị thành 1
       setCurrentQuantity(1);
     } else if (currentQuantity > stock) {
-      // Nếu vượt quá số lượng tồn, đặt giá trị thành số lượng tối đa
       setCurrentQuantity(stock);
       messageRef.current.showWarning("Số lượng vượt quá số lượng có sẵn");
     } else {
-      // Nếu hợp lệ, gọi API cập nhật
       handleQuantityChange(currentQuantity);
     }
   };
@@ -162,7 +158,7 @@ function CardProductCart({
       <div className={cx("title-product")}>
         <p className={cx("name-category")}>{SupCategoryName}</p>
         <h2 className={cx("name-product")}>{productName}</h2>
-        <p className={cx("size")}>{variationName}</p>
+        <p className={cx("size")}>Loại: {variationName}</p>
         <p className={cx("price")}>
           {discount === 0 ? (
             <>{formatCurrency(originalPrice)}</>
@@ -177,31 +173,33 @@ function CardProductCart({
         </p>
       </div>
 
-      <div className={cx("quantity-control")}>
-        <button className={cx("decrease")} onClick={handleDecrease}>
-          -
-        </button>
+      <div className={cx("box-control")}>
+        <div className={cx("total_Price")}>
+          <p>{formatCurrency(calculateTotalPrice())}</p>
+        </div>
+
+        <div className={cx("quantity-control")}>
+          <button className={cx("decrease")} onClick={handleDecrease}>
+            -
+          </button>
           {/* <span className={cx("quantity")}>{currentQuantity}</span> */}
           <input
             className={cx("quantity")}
             value={currentQuantity}
-            onChange={handleInputChange} // Gọi hàm xử lý thay đổi
-            onBlur={handleInputBlur}     // Gọi hàm xử lý khi mất focus
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
-        <button className={cx("increase")} onClick={handleIncrease}>
-          +
-        </button>
-      </div>
-
-      <div className={cx("total_Price")}>
-          <p>Tổng: {formatCurrency(calculateTotalPrice())}</p>
+          <button className={cx("increase")} onClick={handleIncrease}>
+            +
+          </button>
         </div>
 
-      <div
-        className={cx("Trash-control")}
-        onClick={() => handleDeleteProduct(id)}
-      >
-        <FontAwesomeIcon icon={faTrash} className={cx("btn-faTrash")} />
+        <div
+          className={cx("Trash-control")}
+          onClick={() => handleDeleteProduct(id)}
+        >
+          <FontAwesomeIcon icon={faTrash} className={cx("btn-faTrash")} />
+        </div>
       </div>
 
       <MessageNotification ref={messageRef} />
