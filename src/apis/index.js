@@ -146,3 +146,23 @@ export const fetchInvoiceDetailByIdInvoiceAPI = async (id) => {
   const response = await axios.get(`${API_ROOT}/v1/invoices/detail/${id}`);
   return response.data;
 };
+
+export const createfeedbacksByInvoicesDetailAPI = async (formData) => {
+  const response = await axios.post(
+    `${API_ROOT}/v1/feedback/create`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response;
+};
+
+export const fetchFeedbackByProductIdAPI = async (id) => {
+  const response = await axios.get(
+    `${API_ROOT}/v1/feedback//feedback/product/${id}`
+  );
+  return response.data;
+};
