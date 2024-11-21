@@ -11,11 +11,13 @@ import { LoginAPI } from "~/apis";
 import Cookies from "js-cookie";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
+import FormForgotPassword from "../FormForgotPassword";
 
 const cx = classNames.bind(styles);
 
 function FormLogin({ onClose }) {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [showFormForgotPassword, setShowFormForgotPassword] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [Passwords, setPasswords] = useState("");
   const [error, setError] = useState("");
@@ -29,6 +31,14 @@ function FormLogin({ onClose }) {
   const handleCloseRegisterForm = () => {
     setShowRegisterForm(false);
   };
+
+  const handleForgotPasswordClick = () => {
+    setShowFormForgotPassword(true);
+  };
+
+  const handleCloseForgotPasswordForm = () => {
+    setShowFormForgotPassword(false);
+  };
   const success = () => {
     messageApi.open({
       type: "success",
@@ -38,7 +48,7 @@ function FormLogin({ onClose }) {
   const handleLogin = async () => {
     setIsLoading(true);
     setError("");
-    console.log(identifier , Passwords);
+    console.log(identifier, Passwords);
     try {
       const response = await LoginAPI({
         identifier: identifier,
@@ -120,7 +130,7 @@ function FormLogin({ onClose }) {
                   {/* Hiển thị Spin nếu đang loading */}
                 </button>
                 <button className={cx("btn-forgotPassowrd")}>
-                  <a href="/forgot-password">Quên mật khẩu?</a>
+                  <a onClick={handleForgotPasswordClick}>Quên mật khẩu?</a>
                 </button>
 
                 <div className={cx("more-login")}>
@@ -142,6 +152,9 @@ function FormLogin({ onClose }) {
       )}
 
       {showRegisterForm && <FormRegister onClose={handleCloseRegisterForm} />}
+      {showFormForgotPassword && (
+        <FormForgotPassword onClose={handleCloseForgotPasswordForm} />
+      )}
     </>
   );
 }

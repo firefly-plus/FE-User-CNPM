@@ -172,3 +172,20 @@ export const fetchGetProductBySupCategoryAPI = async (id) => {
   );
   return response.data;
 };
+
+export const fetchCheckEmailAPI = async (email) => {
+  const response = await axios.get(`${API_ROOT}/v1/user/email/${email}`);
+  return response.data;
+};
+export const sendEmailAPI = async (formData) => {
+  const response = await axios.post(`${API_ROOT}/v1/email/send`, formData);
+  return response;
+};
+
+export const updatePasswordAPI = async (formData) => {
+  const response = await axios.put(
+    `${API_ROOT}/v1/user/update-password`,
+    formData
+  );
+  return response;
+};
